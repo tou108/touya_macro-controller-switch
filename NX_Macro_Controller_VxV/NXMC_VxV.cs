@@ -2961,7 +2961,7 @@ public class NXMC_VxV : FormEx
 		Python.CreateEngine().CreateScriptSourceFromString("print(\"Hello World!\")").Execute();
 	}
 
-	private void SetTheme(Style style)
+	private void SetTheme(BZComponent.Style style)
 	{
 		//IL_0000: Unknown result type (might be due to invalid IL or missing references)
 		//IL_022e: Unknown result type (might be due to invalid IL or missing references)
@@ -3257,7 +3257,7 @@ public class NXMC_VxV : FormEx
 		MacroShortCutReload();
 	}
 
-	private void MacroItemTheme(Style style)
+	private void MacroItemTheme(BZComponent.Style style)
 	{
 		//IL_0020: Unknown result type (might be due to invalid IL or missing references)
 		foreach (object control in flowLayoutPanel2.Controls)
@@ -3272,7 +3272,7 @@ public class NXMC_VxV : FormEx
 		}
 	}
 
-	private void FileItemTheme(Style style)
+	private void FileItemTheme(BZComponent.Style style)
 	{
 		//IL_0020: Unknown result type (might be due to invalid IL or missing references)
 		foreach (object control in flowLayoutPanel3.Controls)
