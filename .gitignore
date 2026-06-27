@@ -44,8 +44,6 @@ $RECYCLE.BIN/
 # ===== キャプチャ出力（アプリ実行時に生成） =====
 Captures/
 
-# ===== lib/ の DLL だけ追跡する =====
-# カスタム DLL（BZComponent, NxInterface, Suites.Utils）は
-# NuGet 非公開のためリポジトリで管理する
-lib/*.dll
-!lib/*.dll
+# ===== lib/ の DLL は git で追跡する =====
+# （NuGet 非公開の BZComponent, NxInterface, Suites.Utils 等）
+# lib/*.dll は無視せずコミット対象にする
