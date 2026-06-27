@@ -15,7 +15,7 @@
     <RootNamespace />
   </PropertyGroup>
 
-  <!-- ===== .NET Framework 組み込み（パス指定不要） ===== -->
+  <!-- .NET Framework 組み込み -->
   <ItemGroup>
     <Reference Include="System.Management" />
     <Reference Include="PresentationCore" />
@@ -31,9 +31,7 @@
     <Reference Include="Microsoft.VisualBasic" />
   </ItemGroup>
 
-  <!-- ===== カスタム DLL（lib/ フォルダに配置が必要） ===== -->
-  <!-- BZComponent, NxInterface, Suites.Utils は NuGet 非公開のため            -->
-  <!-- リポジトリの lib/ フォルダに DLL ファイルを直接コミットしてください      -->
+  <!-- カスタム DLL（lib/ フォルダに配置） -->
   <ItemGroup>
     <Reference Include="BZComponent">
       <HintPath>lib\BZComponent.dll</HintPath>
@@ -47,38 +45,30 @@
       <HintPath>lib\Suites.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <!-- NuGet に存在しないためlib/に配置 -->
+    <Reference Include="DirectShowLib-2005">
+      <HintPath>lib\DirectShowLib-2005.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PSTaskDialog">
+      <HintPath>lib\PSTaskDialog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
 
-  <!-- ===== NuGet パッケージ（自動復元） ===== -->
+  <!-- NuGet パッケージ -->
   <ItemGroup>
-    <!-- UI / コードエディタ -->
-    <PackageReference Include="ICSharpCode.AvalonEdit" Version="6.3.0.90" />
-
-    <!-- ゲームパッド入力 -->
-    <PackageReference Include="Vortice.XInput" Version="3.5.0" />
+    <PackageReference Include="ICSharpCode.AvalonEdit" Version="*" />
+    <PackageReference Include="Vortice.XInput" Version="*" />
     <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
-
-    <!-- 映像キャプチャ -->
-    <PackageReference Include="DirectShowLib-2005" Version="1.0.0" />
-
-    <!-- 画像処理 -->
-    <PackageReference Include="OpenCvSharp4.Windows" Version="4.10.0.20241024" />
-    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.10.0.20241024" />
-
-    <!-- C# / Python スクリプト実行 -->
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.9.2" />
-    <PackageReference Include="IronPython" Version="3.4.1" />
-
-    <!-- Discord RPC -->
-    <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
-
-    <!-- シリアル通信 -->
-    <PackageReference Include="RJCP.SerialPortStream" Version="2.4.1" />
-
-    <!-- ユーティリティ -->
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PSTaskDialog" Version="0.0.4" />
-    <PackageReference Include="UrlBase64" Version="0.1.2" />
+    <PackageReference Include="DiscordRichPresence" Version="*" />
+    <PackageReference Include="RJCP.SerialPortStream" Version="*" />
+    <PackageReference Include="OpenCvSharp4.Windows" Version="*" />
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="*" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="*" />
+    <PackageReference Include="Newtonsoft.Json" Version="*" />
+    <PackageReference Include="UrlBase64" Version="*" />
+    <PackageReference Include="IronPython" Version="*" />
   </ItemGroup>
 
 </Project>
