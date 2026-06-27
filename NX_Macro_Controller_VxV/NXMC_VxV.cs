@@ -1565,6 +1565,7 @@ public class NXMC_VxV : FormEx
 		//IL_01ac: Unknown result type (might be due to invalid IL or missing references)
 		//IL_01b6: Expected O, but got Unknown
 		int capIndex = ((ListControl)(object)CapDeviceList).SelectedIndex;
+		if (capIndex < 0) return; // 映像デバイスが未選択の場合は何もしない
 		if (DsCapture != null)
 		{
 			DsCapture.Stop();
@@ -3491,6 +3492,20 @@ public class NXMC_VxV : FormEx
 	{
 	}
 
+	private void TabControl1_MouseDoubleClick(object sender, MouseEventArgs e)
+	{
+		var tc = (System.Windows.Forms.TabControl)(object)tabControl1;
+		for (int i = 0; i < tc.TabCount; i++)
+		{
+			if (tc.GetTabRect(i).Contains(e.Location) && tc.TabPages[i] == tabPageMHXX)
+			{
+				var win = new MHXXCharmWindow();
+				win.Show(this);
+				break;
+			}
+		}
+	}
+
 	private void tabControl1_SizeChanged(object sender, EventArgs e)
 	{
 	}
@@ -4975,6 +4990,7 @@ public class NXMC_VxV : FormEx
 		((System.Windows.Forms.Control)(object)tabControl1).DragDrop += NXMC_VxV_DragDrop;
 		((System.Windows.Forms.Control)(object)tabControl1).DragEnter += NXMC_VxV_DragEnter;
 		((System.Windows.Forms.Control)(object)tabControl1).KeyDown += tabControl1_KeyDown;
+		((System.Windows.Forms.Control)(object)tabControl1).MouseDoubleClick += TabControl1_MouseDoubleClick;
 		tabPage2.BackColor = System.Drawing.Color.FromArgb(33, 33, 35);
 		tabPage2.Controls.Add((System.Windows.Forms.Control)(object)button6);
 		tabPage2.Controls.Add((System.Windows.Forms.Control)(object)button4);
