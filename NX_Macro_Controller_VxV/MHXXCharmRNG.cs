@@ -859,7 +859,8 @@ namespace NX_Macro_Controller_VxV
 
             // Table snapshots
             int[] sk1 = (int[])_skill1Ids.Clone(), sk2 = (int[])_skill2Ids.Clone();
-            var   p1  = ((int, int)[])_sp1.Clone(), p2 = ((int, int)[])_sp2.Clone();
+            var   p1  = ((int, int)[])_sp1.Clone();
+            var   p2  = ((int, int)[])_sp2.Clone();
             var   sv  = ((int, int, int)[])_slotValue.Clone();
             int   th  = _th, kind = _kind;
             string[] skNames = (string[])_skillNames.Clone();

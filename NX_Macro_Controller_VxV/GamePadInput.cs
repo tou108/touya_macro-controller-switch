@@ -292,23 +292,23 @@ public static class GamePadInput
 					{
 						for (int i = 0; i < 4; i++)
 						{
-							if (XInput.GetState(i, ref val))
+							if (XInput.GetState(i, out val))
 							{
 								num = i;
 							}
 						}
 					}
-					if (XInput.GetState(num, ref val2))
+					if (XInput.GetState(num, out val2))
 					{
 						GlobalVar.TaskName[2] = "ゲームパッド(XInput) : 接続中";
 						GlobalVar.MAINFORM.TaskView();
 						Connected = true;
-						while (XInput.GetState(num, ref val2))
+						while (XInput.GetState(num, out val2))
 						{
 							for (int j = 0; j < 16; j++)
 							{
 								int num2 = 1 << j;
-								buttons_x[j] = (val2.Gamepad.Buttons & num2) > 0;
+								buttons_x[j] = ((int)val2.Gamepad.Buttons & num2) > 0;
 							}
 							sticks_x[0] = val2.Gamepad.LeftThumbX < -16384;
 							sticks_x[1] = val2.Gamepad.LeftThumbX > 16384;
@@ -436,7 +436,7 @@ public static class GamePadInput
 					Guid guid = Guid.Empty;
 					if (guid == Guid.Empty)
 					{
-						using IEnumerator<DeviceInstance> enumerator = val3.GetDevices((DeviceType)21, (DeviceEnumerationFlags)0).GetEnumerator();
+						using IEnumerator<DeviceInstance> enumerator = val3.GetDevices((SharpDX.DirectInput.DeviceType)21, (DeviceEnumerationFlags)0).GetEnumerator();
 						if (enumerator.MoveNext())
 						{
 							guid = enumerator.Current.InstanceGuid;
@@ -444,7 +444,7 @@ public static class GamePadInput
 					}
 					if (guid == Guid.Empty)
 					{
-						using IEnumerator<DeviceInstance> enumerator = val3.GetDevices((DeviceType)20, (DeviceEnumerationFlags)0).GetEnumerator();
+						using IEnumerator<DeviceInstance> enumerator = val3.GetDevices((SharpDX.DirectInput.DeviceType)20, (DeviceEnumerationFlags)0).GetEnumerator();
 						if (enumerator.MoveNext())
 						{
 							guid = enumerator.Current.InstanceGuid;
@@ -457,7 +457,7 @@ public static class GamePadInput
 						foreach (DeviceObjectInstance @object in ((Device)val4).GetObjects())
 						{
 							DeviceObjectTypeFlags flags = @object.ObjectId.Flags;
-							if (flags - 1 <= 2)
+							if (((int)flags - 1) <= 2)
 							{
 								ObjectProperties objectPropertiesById = ((Device)val4).GetObjectPropertiesById(@object.ObjectId);
 								if (objectPropertiesById != null)

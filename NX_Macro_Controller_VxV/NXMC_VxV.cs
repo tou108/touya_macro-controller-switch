@@ -1618,9 +1618,9 @@ public class NXMC_VxV : FormEx
 		{
 			CvCapture = new VideoCapture();
 			CvCapture.Open(capIndex);
-			CvCapture.Set((CaptureProperty)3, 1920.0);
-			CvCapture.Set((CaptureProperty)4, 1080.0);
-			CvCapture.Set((CaptureProperty)5, 29.97);
+			CvCapture.Set(VideoCaptureProperties.FrameWidth, 1920.0);
+			CvCapture.Set(VideoCaptureProperties.FrameHeight, 1080.0);
+			CvCapture.Set(VideoCaptureProperties.Fps, 29.97);
 			CurrentCaptureFormat = CaptureStyle.OpenCV;
 		}
 		Bitmap image = new Bitmap(1920, 1080);
@@ -4450,7 +4450,7 @@ public class NXMC_VxV : FormEx
 		{
 			components.Dispose();
 		}
-		((FormEx)this).Dispose(disposing);
+		base.Dispose(disposing);
 	}
 
 	private void InitializeComponent()
