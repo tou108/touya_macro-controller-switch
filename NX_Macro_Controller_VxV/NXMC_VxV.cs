@@ -3492,7 +3492,7 @@ public class NXMC_VxV : FormEx
 	{
 	}
 
-	private void TabControl1_MouseDoubleClick(object sender, MouseEventArgs e)
+	private void TabControl1_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
 	{
 		var tc = (System.Windows.Forms.TabControl)(object)tabControl1;
 		for (int i = 0; i < tc.TabCount; i++)
