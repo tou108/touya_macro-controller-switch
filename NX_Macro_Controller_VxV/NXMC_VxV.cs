@@ -991,9 +991,9 @@ public class NXMC_VxV : FormEx
 			return;
 		}
 		TextViewPosition value = positionFromPoint.Value;
-		int line = ((TextViewPosition)(ref value)).Line;
+		int line = value.Line;
 		value = positionFromPoint.Value;
-		int num = IsInMat(line, ((TextViewPosition)(ref value)).Column);
+		int num = IsInMat(line, value.Column);
 		if (num == 1)
 		{
 			if (_popUpWindow == null)
@@ -1002,9 +1002,9 @@ public class NXMC_VxV : FormEx
 				_popUpWindow.nxmc = this;
 				Matsub popUpWindow = _popUpWindow;
 				value = positionFromPoint.Value;
-				popUpWindow.line = ((TextViewPosition)(ref value)).Line - 1;
+				popUpWindow.line = value.Line - 1;
 				value = positionFromPoint.Value;
-				string matImage = GetMatImage(((TextViewPosition)(ref value)).Line);
+				string matImage = GetMatImage(value.Line);
 				_popUpWindow.SelectedIndex = Nmc.ResourcesImages.Select((ResourcesImage _) => _.label).ToList().IndexOf(matImage);
 				_popUpWindow.Left = System.Windows.Forms.Control.MousePosition.X - 14;
 				_popUpWindow.Top = System.Windows.Forms.Control.MousePosition.Y;
@@ -1020,9 +1020,9 @@ public class NXMC_VxV : FormEx
 			_popUpWindow.nxmc = this;
 			Matsub popUpWindow2 = _popUpWindow;
 			value = positionFromPoint.Value;
-			popUpWindow2.line = ((TextViewPosition)(ref value)).Line - 1;
+			popUpWindow2.line = value.Line - 1;
 			value = positionFromPoint.Value;
-			GetMatImage(((TextViewPosition)(ref value)).Line);
+			GetMatImage(value.Line);
 			_popUpWindow.Left = System.Windows.Forms.Control.MousePosition.X - 14;
 			_popUpWindow.Top = System.Windows.Forms.Control.MousePosition.Y;
 			_popUpWindow.StartPosition = FormStartPosition.Manual;

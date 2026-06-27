@@ -456,7 +456,7 @@ public static class GamePadInput
 					{
 						foreach (DeviceObjectInstance @object in ((Device)val4).GetObjects())
 						{
-							DeviceObjectTypeFlags flags = ((DeviceObjectId)(ref @object.ObjectId)).Flags;
+							DeviceObjectTypeFlags flags = @object.ObjectId.Flags;
 							if (flags - 1 <= 2)
 							{
 								ObjectProperties objectPropertiesById = ((Device)val4).GetObjectPropertiesById(@object.ObjectId);
