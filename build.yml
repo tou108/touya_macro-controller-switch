@@ -1,0 +1,78 @@
+name: Build NX Macro Controller
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  release:
+    types: [ created ]
+  workflow_dispatch:   # 手動実行ボタン
+
+jobs:
+  build:
+    name: Build (Windows x64 Release)
+    runs-on: windows-latest
+
+    steps:
+      # ① リポジトリをチェックアウト（LFS ファイルも取得）
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true   # ← Resources.resx (169MB) を LFS から取得するために必要
+
+      # ② 必須ファイルの存在チェック（早期エラー）
+      - name: Verify required DLL files
+        shell: pwsh
+        run: |
+          $required = @(
+            "lib\BZComponent.dll",
+            "lib\NxInterface.dll",
+            "lib\Suites.Utils.dll",
+            "lib\DirectShowLib-2005.dll",
+            "lib\PSTaskDialog.dll"
+          )
+          $missing = $required | Where-Object { -not (Test-Path $_) }
+          if ($missing.Count -gt 0) {
+            Write-Host "##[error] 以下の DLL ファイルが lib/ フォルダにありません:"
+            $missing | ForEach-Object { Write-Host "  - $_" }
+            Write-Host ""
+            Write-Host "  → 元の NX Macro Controller インストール先 (例: C:\NXMacroController\) から"
+            Write-Host "    上記の .dll ファイルを lib\ フォルダにコピーして git commit & push してください。"
+            exit 1
+          }
+          Write-Host "✓ 全 DLL ファイル確認 OK"
+
+      # ③ MSBuild をセットアップ（.NET Framework 4.8 のビルドに必要）
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # ④ NuGet パッケージを復元
+      - name: Restore NuGet packages
+        run: dotnet restore NX_Macro_Controller/NX-Macro-Controller.csproj
+
+      # ⑤ Release ビルド（x64）
+      - name: Build
+        run: |
+          msbuild NX_Macro_Controller/NX-Macro-Controller.csproj `
+            /p:Configuration=Release `
+            /p:Platform=x64 `
+            /p:OutputPath=..\\publish `
+            /m /nologo
+        shell: pwsh
+
+      # ⑥ ビルド成果物をアーティファクトとして保存
+      #    Actions の "Artifacts" からダウンロードできる
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NX-Macro-Controller-${{ github.run_number }}
+          path: NX_Macro_Controller/publish/
+          if-no-files-found: error
+
+      # ⑦ GitHub Release が作成された時だけ exe を Release に添付
+      - name: Attach to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: NX_Macro_Controller/publish/**
