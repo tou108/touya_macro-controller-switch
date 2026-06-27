@@ -58,7 +58,13 @@
 
   <!-- NuGet パッケージ -->
   <ItemGroup>
-    <PackageReference Include="ICSharpCode.AvalonEdit" Version="*" />
+    <!--
+      [修正] ICSharpCode.AvalonEdit → AvalonEdit
+      旧パッケージ ID "ICSharpCode.AvalonEdit" は NuGet から安定版が削除され、
+      現在は "AvalonEdit" という ID に統一されています。
+      名前空間 (ICSharpCode.AvalonEdit.*) はソースコード側で変更不要です。
+    -->
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Vortice.XInput" Version="*" />
     <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
     <PackageReference Include="DiscordRichPresence" Version="*" />
