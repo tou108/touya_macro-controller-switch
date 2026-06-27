@@ -10,10 +10,49 @@
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <ApplicationIcon>app.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!--
+      [Fix 3] csproj は NX_Macro_Controller/ にあるが app.ico / app.manifest は
+              リポジトリルートにあるため ".." でひとつ上を参照する
+    -->
+    <ApplicationIcon>..\app.ico</ApplicationIcon>
+    <ApplicationManifest>..\app.manifest</ApplicationManifest>
     <RootNamespace />
   </PropertyGroup>
+
+  <!--
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    [Fix 1] ソースファイルの明示インクルード
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    SDK スタイルプロジェクトはプロジェクトファイルと同じフォルダの *.cs を
+    自動インクルードするが、このプロジェクトの .cs ファイルは全て親ディレクトリ
+    (NX_Macro_Controller_VxV/, HongliangSoft.Utilities/ 等) にある。
+    そのため "No source files specified (CS2008)" が発生していた。
+  -->
+  <ItemGroup>
+    <Compile Include="..\NX_Macro_Controller_VxV\**\*.cs" />
+    <Compile Include="..\NX_Macro_Controller_VxV.Properties\*.cs" />
+    <Compile Include="..\HongliangSoft.Utilities\*.cs" />
+    <Compile Include="..\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <!-- EmbeddedResource: .resx はルートにあり Git LFS で管理されている -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\NX_Macro_Controller_VxV.AppInfoDialog.resx">
+      <LogicalName>NX_Macro_Controller_VxV.AppInfoDialog.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NX_Macro_Controller_VxV.InputDialog.resx">
+      <LogicalName>NX_Macro_Controller_VxV.InputDialog.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NX_Macro_Controller_VxV.MacroShare.resx">
+      <LogicalName>NX_Macro_Controller_VxV.MacroShare.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NX_Macro_Controller_VxV.NXMC_VxV.resx">
+      <LogicalName>NX_Macro_Controller_VxV.NXMC_VxV.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NX_Macro_Controller_VxV.Properties.Resources.resx">
+      <LogicalName>NX_Macro_Controller_VxV.Properties.Resources.resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 
   <!-- .NET Framework 組み込み -->
   <ItemGroup>
@@ -31,49 +70,43 @@
     <Reference Include="Microsoft.VisualBasic" />
   </ItemGroup>
 
-  <!-- カスタム DLL（lib/ フォルダに配置） -->
+  <!--
+    [Fix 2] カスタム DLL の HintPath 修正
+    csproj は NX_Macro_Controller/ にあるが lib/ はリポジトリルートにある。
+    lib\X.dll → ..\lib\X.dll と ".." が必要
+  -->
   <ItemGroup>
     <Reference Include="BZComponent">
-      <HintPath>lib\BZComponent.dll</HintPath>
+      <HintPath>..\lib\BZComponent.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NxInterface">
-      <HintPath>lib\NxInterface.dll</HintPath>
+      <HintPath>..\lib\NxInterface.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Suites.Utils">
-      <HintPath>lib\Suites.Utils.dll</HintPath>
+      <HintPath>..\lib\Suites.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <!-- NuGet に存在しないためlib/に配置 -->
     <Reference Include="DirectShowLib-2005">
-      <HintPath>lib\DirectShowLib-2005.dll</HintPath>
+      <HintPath>..\lib\DirectShowLib-2005.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PSTaskDialog">
-      <HintPath>lib\PSTaskDialog.dll</HintPath>
+      <HintPath>..\lib\PSTaskDialog.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
 
   <!--
     NuGet パッケージ（全バージョン固定）
-    ─────────────────────────────────────────────────────────────────
-    Version="*" (最新自動取得) は、パッケージが突然 net48 サポートを
-    打ち切ったときにビルドが壊れる原因になるため、全て明示固定しています。
-
     修正履歴:
-      [Fix 1] ICSharpCode.AvalonEdit → AvalonEdit (パッケージID変更)
-      [Fix 2] Vortice.XInput 3.8.3 は net8/9/10 のみ対応で net48 非対応
-               → 最後の netstandard2.0 対応版 1.9.56 に固定
+      [Fix 4] ICSharpCode.AvalonEdit → AvalonEdit (パッケージID変更)
+      [Fix 5] Vortice.XInput 3.x は net48 非対応 → 1.9.56 (最終 netstandard2.0 版)
   -->
   <ItemGroup>
-    <!-- [Fix 1] パッケージID変更: ICSharpCode.AvalonEdit → AvalonEdit -->
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-
-    <!-- [Fix 2] v2以降でnet48サポート廃止 → 1.9.56(最終netstandard2.0対応版)に固定 -->
     <PackageReference Include="Vortice.XInput" Version="1.9.56" />
-
     <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
     <PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
     <PackageReference Include="RJCP.SerialPortStream" Version="3.0.5" />
