@@ -1,0 +1,51 @@
+# ===== ビルド出力 =====
+bin/
+obj/
+publish/
+
+# ===== NuGet =====
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+
+# ===== Visual Studio =====
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+
+# ===== ログ・キャッシュ =====
+*.log
+*.cache
+*.ilk
+*.meta
+*.tlog
+*.lastbuildstate
+
+# ===== Windows =====
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===== IDE (JetBrains Rider など) =====
+.idea/
+*.sln.iml
+
+# ===== キャプチャ出力（アプリ実行時に生成） =====
+Captures/
+
+# ===== lib/ の DLL だけ追跡する =====
+# カスタム DLL（BZComponent, NxInterface, Suites.Utils）は
+# NuGet 非公開のためリポジトリで管理する
+lib/*.dll
+!lib/*.dll

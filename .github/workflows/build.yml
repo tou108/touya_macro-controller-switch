@@ -1,0 +1,56 @@
+name: Build NX Macro Controller
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  release:
+    types: [ created ]
+  workflow_dispatch:   # 手動実行ボタン
+
+jobs:
+  build:
+    name: Build (Windows x64 Release)
+    runs-on: windows-latest
+
+    steps:
+      # ① リポジトリをチェックアウト（LFS ファイルも取得）
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true   # ← Resources.resx (169MB) を LFS から取得するために必要
+
+      # ② MSBuild をセットアップ（.NET Framework 4.8 のビルドに必要）
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # ③ NuGet パッケージを復元
+      - name: Restore NuGet packages
+        run: dotnet restore NX_Macro_Controller/NX-Macro-Controller.csproj
+
+      # ④ Release ビルド（x64）
+      - name: Build
+        run: |
+          msbuild NX_Macro_Controller/NX-Macro-Controller.csproj `
+            /p:Configuration=Release `
+            /p:Platform=x64 `
+            /p:OutputPath=..\publish `
+            /m /nologo
+        shell: pwsh
+
+      # ⑤ ビルド成果物をアーティファクトとして保存
+      #    Actions の "Artifacts" からダウンロードできる
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NX-Macro-Controller-${{ github.run_number }}
+          path: NX_Macro_Controller/publish/
+          if-no-files-found: error
+
+      # ⑥ GitHub Release が作成された時だけ exe を Release に添付
+      - name: Attach to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: NX_Macro_Controller/publish/**
