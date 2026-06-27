@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NX-Macro-Controller-${{ github.run_number }}
-          path: NX_Macro_Controller/publish/
+          path: publish/
           if-no-files-found: error
 
       # ⑥ GitHub Release が作成された時だけ exe を Release に添付
@@ -53,4 +53,4 @@ jobs:
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          files: NX_Macro_Controller/publish/**
+          files: publish/**
