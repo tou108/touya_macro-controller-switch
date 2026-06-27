@@ -56,25 +56,33 @@
     </Reference>
   </ItemGroup>
 
-  <!-- NuGet パッケージ -->
+  <!--
+    NuGet パッケージ（全バージョン固定）
+    ─────────────────────────────────────────────────────────────────
+    Version="*" (最新自動取得) は、パッケージが突然 net48 サポートを
+    打ち切ったときにビルドが壊れる原因になるため、全て明示固定しています。
+
+    修正履歴:
+      [Fix 1] ICSharpCode.AvalonEdit → AvalonEdit (パッケージID変更)
+      [Fix 2] Vortice.XInput 3.8.3 は net8/9/10 のみ対応で net48 非対応
+               → 最後の netstandard2.0 対応版 1.9.56 に固定
+  -->
   <ItemGroup>
-    <!--
-      [修正] ICSharpCode.AvalonEdit → AvalonEdit
-      旧パッケージ ID "ICSharpCode.AvalonEdit" は NuGet から安定版が削除され、
-      現在は "AvalonEdit" という ID に統一されています。
-      名前空間 (ICSharpCode.AvalonEdit.*) はソースコード側で変更不要です。
-    -->
+    <!-- [Fix 1] パッケージID変更: ICSharpCode.AvalonEdit → AvalonEdit -->
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="Vortice.XInput" Version="*" />
+
+    <!-- [Fix 2] v2以降でnet48サポート廃止 → 1.9.56(最終netstandard2.0対応版)に固定 -->
+    <PackageReference Include="Vortice.XInput" Version="1.9.56" />
+
     <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
-    <PackageReference Include="DiscordRichPresence" Version="*" />
-    <PackageReference Include="RJCP.SerialPortStream" Version="*" />
-    <PackageReference Include="OpenCvSharp4.Windows" Version="*" />
-    <PackageReference Include="OpenCvSharp4.Extensions" Version="*" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="*" />
-    <PackageReference Include="Newtonsoft.Json" Version="*" />
-    <PackageReference Include="UrlBase64" Version="*" />
-    <PackageReference Include="IronPython" Version="*" />
+    <PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
+    <PackageReference Include="RJCP.SerialPortStream" Version="3.0.5" />
+    <PackageReference Include="OpenCvSharp4.Windows" Version="4.13.0.20260302" />
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.13.0.20260302" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="UrlBase64" Version="2.0.0" />
+    <PackageReference Include="IronPython" Version="3.4.2" />
   </ItemGroup>
 
 </Project>
