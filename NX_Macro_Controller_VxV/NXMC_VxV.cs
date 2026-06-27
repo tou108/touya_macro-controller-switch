@@ -572,7 +572,7 @@ public class NXMC_VxV : FormEx
 		ChangeWindowMessageFilterEx(((System.Windows.Forms.Control)this).Handle, 563u, 1u, (IntPtr)0);
 		ChangeWindowMessageFilterEx(((System.Windows.Forms.Control)this).Handle, 74u, 1u, (IntPtr)0);
 		ChangeWindowMessageFilterEx(((System.Windows.Forms.Control)this).Handle, 73u, 1u, (IntPtr)0);
-		if (((Component)this).DesignMode)
+		if (this.DesignMode)
 		{
 			return;
 		}
@@ -916,7 +916,7 @@ public class NXMC_VxV : FormEx
 			{
 				if (completionWindow != null)
 				{
-					((Window)(object)completionWindow).Close();
+					((System.Windows.Window)(object)completionWindow).Close();
 				}
 				_popUpWindow = new Matsub(0);
 				_popUpWindow.nxmc = this;
@@ -936,7 +936,7 @@ public class NXMC_VxV : FormEx
 			{
 				if (completionWindow != null)
 				{
-					((Window)(object)completionWindow).Close();
+					((System.Windows.Window)(object)completionWindow).Close();
 				}
 				_popUpWindow = new Matsub(num - 1);
 				_popUpWindow.nxmc = this;
@@ -1157,8 +1157,8 @@ public class NXMC_VxV : FormEx
 		}
 		if (completionData.Count > 0)
 		{
-			((Window)(object)completionWindow).Show();
-			((Window)(object)completionWindow).Closed += delegate
+			((System.Windows.Window)(object)completionWindow).Show();
+			((System.Windows.Window)(object)completionWindow).Closed += delegate
 			{
 				completionWindow = null;
 			};
@@ -1394,7 +1394,7 @@ public class NXMC_VxV : FormEx
 		((System.Windows.Forms.Control)(object)macroSubDirCmb).Tag = null;
 		_lastHighlight.Start();
 		_lastTaskView.Start();
-		if (((Component)this).DesignMode)
+		if (this.DesignMode)
 		{
 			return;
 		}

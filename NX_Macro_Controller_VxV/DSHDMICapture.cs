@@ -216,7 +216,7 @@ public class DSHDMICapture : IDisposable, ISampleGrabberCB
 		_videoInfoHeader = (VideoInfoHeader)Marshal.PtrToStructure(val.formatPtr, typeof(VideoInfoHeader));
 		DsUtils.FreeAMMediaType(val);
 		DsError.ThrowExceptionForHR(graphBuilder.AddFilter((IBaseFilter)sampleGrabber, "Sample Grabber"));
-		DsError.ThrowExceptionForHR(captureGraphBuilder.RenderStream(DsGuid.op_Implicit(PinCategory.Preview), DsGuid.op_Implicit(MediaType.Video), (object)captureDevice, (IBaseFilter)sampleGrabber, (IBaseFilter)null));
+		DsError.ThrowExceptionForHR(captureGraphBuilder.RenderStream((Guid)PinCategory.Preview, (Guid)MediaType.Video, (object)captureDevice, (IBaseFilter)sampleGrabber, (IBaseFilter)null));
 		Marshal.ReleaseComObject(captureDevice);
 		mediaEventEx = (IMediaEventEx)graphBuilder;
 		mediaControl = (IMediaControl)graphBuilder;
@@ -230,14 +230,14 @@ public class DSHDMICapture : IDisposable, ISampleGrabberCB
 		videoWindow.put_MessageDrain(Handle);
 		renderingSize = _renderingSize;
 		IEnumFilters val2 = default(IEnumFilters);
-		graphBuilder.EnumFilters(ref val2);
+		graphBuilder.EnumFilters(out val2);
 		IBaseFilter[] array = (IBaseFilter[])(object)new IBaseFilter[1];
 		FilterInfo val3 = default(FilterInfo);
 		Guid guid = default(Guid);
 		while (val2.Next(array.Length, array, IntPtr.Zero) == 0)
 		{
-			array[0].QueryFilterInfo(ref val3);
-			array[0].GetClassID(ref guid);
+			array[0].QueryFilterInfo(out val3);
+			array[0].GetClassID(out guid);
 			array[0] = null;
 		}
 		AMMediaType val4 = new AMMediaType();
